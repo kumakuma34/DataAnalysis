@@ -10,11 +10,16 @@ def cos_sim(A, B):
     return dot(A, B) / (norm(A) * norm(B))
 
 order_data = pd.read_csv('./52037_order_2018.csv' ,encoding='CP949')
-order_data['CUST'] = order_data['BIZPLC_ID'] + '_' + order_data['RSTR_ID']
-print(order_data)
+
+#BIZPLC_ID , RSTR_ID로 key로 쓸 고객 정보 생성
+order_data['CUST'] = order_data['BIZPLC_ID'].apply(str) + '_' + order_data['RSTR_ID'].apply(str)
+#print(order_data)
 
 goods_data = pd.read_csv('./GD_CLS_ID_INFO.csv' ,encoding='CP949')
-print(goods_data)
+goods_data['GD_CLS_NM'].apply(str)
+#print(goods_data)
 
-df = pd.DataFrame(columns = goods_data['GD_CLS_ID'])
+#코사인 유사도 검사에 쓸 수 있는 형태로 dataFrame 생성
+df = pd.DataFrame(index = order_data['CUST'] , columns = goods_data['GD_CLS_NM'] )
+df.loc['1003_1004']['대두유'] = 1
 print(df)
